@@ -7,7 +7,7 @@ Keep any element automatically up to date — tab visibility, network reconnects
 [![size](https://img.shields.io/badge/size-1.3kb_gzipped-green)](https://bundlephobia.com/package/stalejs)
 [![license](https://img.shields.io/github/license/kptaan13/stalejs)](LICENSE)
 
-## [→ Live Demo](https://kptaan13.github.io/stalejs)
+## [→ Live Demo](https://kptaan13.github.io/stalejs/demo)
 
 ---
 
