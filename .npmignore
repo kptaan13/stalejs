@@ -1,0 +1,11 @@
+demo/
+tests/
+src/
+.claude/
+.cursor/
+*.test.ts
+tsup.config.ts
+tsconfig.json
+tsconfig.*.json
+.gitignore
+vitest.config.ts
