@@ -3,9 +3,9 @@
 **Zero-dependency DOM content-freshness primitive.**
 Keep any element automatically up to date — tab visibility, network reconnects, scroll intersection, and TTL expiry all handled out of the box.
 
-[![npm](https://img.shields.io/npm/v/stalejs)](https://npmjs.com/package/stalejs)
-[![size](https://img.shields.io/bundlephobia/minzip/stalejs)](https://bundlephobia.com/package/stalejs)
-[![license](https://img.shields.io/npm/l/stalejs)](LICENSE)
+[![npm](https://img.shields.io/badge/npm-0.1.0-blue)](https://npmjs.com/package/stalejs)
+[![size](https://img.shields.io/badge/size-1.3kb_gzipped-green)](https://bundlephobia.com/package/stalejs)
+[![license](https://img.shields.io/github/license/kptaan13/stalejs)](LICENSE)
 
 ## [→ Live Demo](https://kptaan13.github.io/stalejs)
 
