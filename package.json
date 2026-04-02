@@ -1,6 +1,6 @@
 {
   "name": "stalejs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-dependency DOM content-freshness primitive. Keeps elements up to date automatically.",
   "keywords": [
     "stale",
