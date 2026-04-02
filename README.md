@@ -167,6 +167,41 @@ stale.resume('#price')   // resume — refetches immediately if stale
 
 ---
 
+### `stale.getStatus(target)`
+
+Returns the current status of a binding. Useful for building loading states, debug overlays, or error indicators.
+
+```ts
+const status = stale.getStatus('#price')
+
+// Returns null if no binding exists for the target
+// Otherwise:
+{
+  paused:      boolean  // is the binding paused?
+  fetching:    boolean  // is a refetch in flight?
+  lastFetched: number   // timestamp of last successful fetch (0 = never)
+  age:         number   // ms since last fetch (Infinity if never fetched)
+  stale:       boolean  // is data currently stale?
+  error:       Error | null  // last refetch error, if any
+}
+```
+
+Example — show an error badge when refetch fails:
+
+```js
+stale('#price', {
+  ttl: '10s',
+  refetch: () => fetch('/api/price').then(r => r.json()),
+  update: (el, data) => { el.textContent = data.price },
+  onError: () => {
+    const status = stale.getStatus('#price')
+    document.querySelector('#price-error').hidden = !status?.error
+  },
+})
+```
+
+---
+
 ### `stale.configure(defaults)`
 
 Set global defaults for all future `stale()` calls.

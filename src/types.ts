@@ -28,6 +28,21 @@ export interface StaleConfig {
   eager?: boolean
 }
 
+export interface StaleStatus {
+  /** Whether the binding is currently paused. */
+  paused: boolean
+  /** Whether a refetch is in flight. */
+  fetching: boolean
+  /** Timestamp of the last successful fetch (0 if never fetched). */
+  lastFetched: number
+  /** Milliseconds since last fetch (Infinity if never fetched). */
+  age: number
+  /** Whether data is currently considered stale. */
+  stale: boolean
+  /** Last error thrown by refetch, if any. */
+  error: Error | null
+}
+
 export interface StaleBinding {
   el: HTMLElement
   options: Required<StaleOptions>
@@ -36,5 +51,6 @@ export interface StaleBinding {
   paused: boolean
   intervalId: ReturnType<typeof setInterval> | null
   isFetching: boolean
+  lastError: Error | null
   cleanupFns: Array<() => void>
 }

@@ -2,9 +2,9 @@ import { parseTTL } from './parse-ttl'
 import { observeVisibility } from './observe-visibility'
 import { observeIntersection } from './observe-intersection'
 import { observeDOMRemoval } from './observe-dom-removal'
-import type { StaleOptions, StaleBinding, StaleConfig } from './types'
+import type { StaleOptions, StaleBinding, StaleConfig, StaleStatus } from './types'
 
-export type { StaleOptions, StaleBinding, StaleConfig }
+export type { StaleOptions, StaleBinding, StaleConfig, StaleStatus }
 
 // ---------------------------------------------------------------------------
 // Global config defaults
@@ -46,9 +46,12 @@ async function doRefetch(binding: StaleBinding): Promise<void> {
   try {
     const data = await binding.options.refetch()
     binding.lastFetched = Date.now()
+    binding.lastError = null
     binding.options.update(binding.el, data)
   } catch (err) {
-    binding.options.onError(err instanceof Error ? err : new Error(String(err)))
+    const error = err instanceof Error ? err : new Error(String(err))
+    binding.lastError = error
+    binding.options.onError(error)
   } finally {
     binding.isFetching = false
   }
@@ -116,6 +119,7 @@ function staleImpl(
       paused: false,
       intervalId: null,
       isFetching: false,
+      lastError: null,
       cleanupFns: [],
     }
 
@@ -221,6 +225,24 @@ staleImpl.resume = function (
 
 staleImpl.configure = function (config: StaleConfig): void {
   globalDefaults = { ...globalDefaults, ...config }
+}
+
+staleImpl.getStatus = function (
+  target: string | HTMLElement | NodeList | NodeListOf<HTMLElement>,
+): StaleStatus | null {
+  const els = resolveTarget(target)
+  if (els.length === 0) return null
+  const binding = registry.get(els[0])
+  if (!binding) return null
+  const age = binding.lastFetched === 0 ? Infinity : Date.now() - binding.lastFetched
+  return {
+    paused: binding.paused,
+    fetching: binding.isFetching,
+    lastFetched: binding.lastFetched,
+    age,
+    stale: isStale(binding),
+    error: binding.lastError,
+  }
 }
 
 // ---------------------------------------------------------------------------
